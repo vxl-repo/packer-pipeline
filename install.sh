@@ -3,5 +3,5 @@
 sudo sleep 30
 sudo apt-get update
 sudo apt-get install -y apache2
-sudo chmod -R /var/www/html/index.html
+sudo chmod -R 777 /var/www/html/index.html
 sudo echo "<h1>Welcome to Packer $(hostname -f)</h1>" > /var/www/html/index.html
