@@ -22,6 +22,11 @@ stages {
 			"""
 		}
 	}
+	stage('Packer : Build AWS AMI') {
+		steps{
+			sh "packer build packer-aws.pkr.hcl"
+		}
+	}
 
 	}
 }
