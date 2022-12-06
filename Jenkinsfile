@@ -11,9 +11,15 @@ stages {
 			sh "packer validate packer-aws.pkr.hcl"
 		}
 	}
-	stage('Packer : Build AWS AMI') {
+	stage('Packer : Export AWS IAM Credentials') {
 		steps {
-			sh "packer build packer-aws.pkr.hcl"
+			sh """
+			#!/bin/sh
+			export AWS_ACCESS_KEY_ID=`echo $AWS_ACCESS_KEY_ID`
+			export AWS_SECRET_ACCESS_KEY=`echo $AWS_SECRET_ACCESS_KEY`
+			echo $AWS_ACCESS_KEY_ID
+			echo $AWS_SECRET_ACCESS_KEY
+			"""
 		}
 	}
 
