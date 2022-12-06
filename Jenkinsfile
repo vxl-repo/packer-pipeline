@@ -11,6 +11,11 @@ stages {
 			sh "packer validate packer-aws.pkr.hcl"
 		}
 	}
+	stage('Packer : Build AWS AMI') {
+		steps {
+			sh "packer build packer-aws.pkr.hcl"
+		}
+	}
 
 	}
 }

@@ -10,6 +10,8 @@ packer {
 source "amazon-ebs" "ubuntu" {
   ami_name      = "golden_image"
   instance_type = "t2.micro"
+  access_key = AWS_ACCESS_KEY_ID
+  secret_key = AWS_SECRET_ACCESS_KEY
   region        = "us-west-2"
   source_ami_filter {
     filters = {
