@@ -1,9 +1,6 @@
 pipeline {
 agent any
-environment {
-	AWS_ACCESS_KEY_ID = credentials()
-	AWS_SECRET_ACCESS_KEY = credentials()
-}
+
 stages {
 	stage('Packer : Initialize Build') {
 		steps{		
@@ -16,6 +13,10 @@ stages {
 		}
 	}
 	stage('Packer : Export AWS IAM Credentials') {
+		environment {
+			AWS_ACCESS_KEY_ID = credentials('packer_aws_iam')
+			AWS_SECRET_ACCESS_KEY = credentials('packer_aws_iam')
+		}
 		steps {
 			sh """
 				export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
