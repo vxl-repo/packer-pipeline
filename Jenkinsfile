@@ -1,5 +1,9 @@
 pipeline {
 agent any
+environment {
+	AWS_ACCESS_KEY_ID = credentials()
+	AWS_SECRET_ACCESS_KEY = credentials()
+}
 stages {
 	stage('Packer : Initialize Build') {
 		steps{		
@@ -13,14 +17,11 @@ stages {
 	}
 	stage('Packer : Export AWS IAM Credentials') {
 		steps {
-				withCredentials([[
-					$class: 'AmazonWebServicesCredentialsBinding',
-					credentialsId: 'packer_aws_iam',
-					accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']])
-
-				echo $AWS_ACCESS_KEY_ID	
-			}
+			sh """
+				export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+				export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+			"""
+		}
 	}
 	stage('Packer : Build AWS AMI') {
 		steps{
