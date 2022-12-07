@@ -13,14 +13,15 @@ stages {
 	}
 	stage('Packer : Export AWS IAM Credentials') {
 		steps {
-			sh """
-			#!/bin/sh
-			export AWS_ACCESS_KEY_ID=`echo $AWS_ACCESS_KEY_ID`
-			export AWS_SECRET_ACCESS_KEY=`echo $AWS_SECRET_ACCESS_KEY`
-			echo $AWS_ACCESS_KEY_ID
-			echo $AWS_SECRET_ACCESS_KEY
-			"""
+			withCredentials([[
+				$class: 'AmazonWebServicesCredentialsBinding',
+				credentialsId: 'packer_aws_iam',
+				accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+				secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+			]])
+			
 		}
+	
 	}
 	stage('Packer : Build AWS AMI') {
 		steps{
